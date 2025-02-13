@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My, Arouj</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffb3d9, #ff99cc); /* Softer pink gradient */
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; /* Prevent scrolling */
+            position: relative; /* Needed for absolute positioning of emojis */
+        }
+
+        #login-form {
+            background: rgba(255, 255, 255, 0.3); /* Slightly transparent white */
+            padding: 30px 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            z-index: 10; /* Ensure form stays on top */
+        }
+
+        label {
+            font-size: 20px;
+            color: #fff; /* White text for label */
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8); /* Light background */
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 1); /* Focus background change */
+            outline: none;
+            box-shadow: 0 0 8px rgba(255, 77, 121, 0.7); /* Light pink border on focus */
+        }
+
+        button {
+            background: #ff66b2; /* Soft pink */
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #ff3385; /* Darker pink on hover */
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Falling emoji animation */
+        .falling-emoji {
+            position: absolute;
+            font-size: 2em;
+            top: -50px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            from { transform: translateY(-50px); }
+            to { transform: translateY(100vh); }
+        }
+
+    </style>
+</head>
+<body>
+    <form id="login-form">
+        <label for="code">Last day we met:</label>
+        <input type="text" id="code" name="code" placeholder="DD-MM-YYYY">
+        <button id="submit-btn">Login</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        const form = document.getElementById('login-form');
+        const codeInput = document.getElementById('code');
+        const submitBtn = document.getElementById('submit-btn');
+        const resultDiv = document.getElementById('result');
+
+        const secretCode = '11-11-2024'; // Correct date
+        const nextPageUrl = 'main.html'; // Replace with the URL of the new page
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const userInput = codeInput.value.trim();
+            if (userInput === secretCode) {
+                resultDiv.innerHTML = 'Alhamdulilah, you remembered it... ❤️';
+                setTimeout(() => { window.location.href = nextPageUrl; }, 2000); // Redirect after 2s
+            } else {
+                resultDiv.innerHTML = 'Are you sure, my arouj? That wasn’t the last time we met... Try again.';
+            }
+        });
+
+        // Function to create falling emojis
+        function createFallingEmoji() {
+            const emojis = ['❤️', '💖', '💘', '💕', '💞', '💓', '💗', '😍'];
+            const emoji = document.createElement('div');
+            emoji.classList.add('falling-emoji');
+            emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+            emoji.style.animationDuration = (Math.random() * 3 + 2) + 's'; // Random speed for fall
+            document.body.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 5000); // Remove emoji after it falls
+        }
+
+        // Generate falling emojis every 500ms
+        setInterval(createFallingEmoji, 500);
+    </script>
+</body>
+</html>
